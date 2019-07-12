@@ -15,7 +15,7 @@
 
 #### in this example we give permission for the user to use docker 
 
-### b)(createuser.sh) contain the settings to password authentication, restart the service:
+### b) (createuser.sh) contain the settings to password authentication, restart the service:
 
     sudo chmod 777 /etc/ssh/sshd_config
     sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
@@ -26,7 +26,7 @@
 #### We want to login without the use of a .pem file so we change the ssh configuration to let us in with the created users username and  password. To write the config file we escalate our permissions. We restart the ssh service for the changes to take effect
 
 ## 3. Make main.tf file and contain:
-### a)(main.tf) You have to declare the variables:
+### a) (main.tf) You have to declare the variables:
 
     variable "username" {
 		type = string
@@ -36,7 +36,7 @@
     }
 #### Terraform will promt us for these, we can give these variables in a .tfvars file too.
 
-### b)(main.tf) Inside the resource block copy the create user script to the instance:
+### b) (main.tf) Inside the resource block copy the create user script to the instance:
 
     provisioner "file" {
 				source = "createuser.sh"
@@ -51,7 +51,7 @@
 
 #### For destination use the /tmp folder it doesnt need super user permissions to write. We have to specify the connection, for host we can use self.public_ip if we are in the same block as the instance creation. For user use the username specified by the instance. Use a variable to hide your rout for the .pem file.
 
-### c)(main.tf) ..and give instructions to run it: 
+### c) (main.tf) ..and give instructions to run it: 
 
     provisioner "remote-exec" {
 				inline = [
